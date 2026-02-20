@@ -1,3 +1,3 @@
 Portada, intro, comparación, conclusiones = Andrés
-Descripcion, susos = Yee
+Descripcion, usos = Yee
 Datasets, resultados = Osman
