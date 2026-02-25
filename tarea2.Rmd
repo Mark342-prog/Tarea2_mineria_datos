@@ -1,12 +1,33 @@
 ---
 title: "tarea2"
-author: 'Grupo #8'
-date: "2026-02-24"
-output:
-  pdf_document: default
-  html_document: default
----
+author: |
+  Grupo \#8  
+  Osman Emanuel de León García - 23428  
+  María José Yee Vidal - 231193  
+  Andrés Rafael Chivalán Marroquín - 21534
 
+date: "2026-02-24"
+output: 
+  pdf_document: default
+header-includes:
+  - \usepackage{graphicx}
+  - \usepackage{titling}
+  - \pretitle{\begin{center}\includegraphics[width=3in,height=5in]{Uvg_logo.jpg}\LARGE\\}
+  - \posttitle{\end{center}}
+---
+\newpage
+
+
+## Introducción
+El aprendizaje no supervisado es una de las ramas principales de la minería de datos y del aprendizaje automático. Su objetivo es descubrir patrones, estructuras o relaciones ocultas en los datos sin utilizar etiquetas o resultados previamente conocidos.
+
+Estas técnicas se emplean principalmente para la exploración y comprensión de grandes volúmenes de información, permitiendo tareas como la segmentación de elementos similares, la reducción de la complejidad de los datos, la detección de anomalías y el descubrimiento de asociaciones frecuentes. Su importancia radica en que facilita la generación de conocimiento a partir de datos no estructurados o sin clasificar, apoyando la toma de decisiones y la identificación de patrones que no son evidentes a simple vista.
+
+### Objetivos
+- Diferenciar los diferentes tipos de formas
+- Aprender cuando aplicar los diferentes algoritmos
+- Aprender a interpretar las respuestas
+- Aprender a filtrar las respuestas
 
 ## Cargar librerías
 
@@ -363,3 +384,117 @@ que ICA logró separar parcialmente las fuentes subyacentes presentes en la señ
 Este resultado demuestra la utilidad de ICA en el análisis de señales biomédicas,
 ya que permite identificar estructuras ocultas y separar posibles fuentes independientes
 a partir de mezclas lineales observadas.
+
+## Comparaciones generales 
+
+### SVD (Singular Value Decomposition)
+
+La SVD (Descomposición en Valores Singulares) es un método algebraico que descompone una matriz en componentes ortogonales ordenados por importancia.
+
+#### Ventajas
+
+- Método determinista (mismo resultado en cada ejecución).
+
+- Base matemática sólida.
+
+- Eficiente para datos lineales y matrices grandes.
+
+- Muy útil en compresión de datos y análisis de texto (ej. LSA).
+
+- Preserva la mayor varianza posible en menos dimensiones.
+
+#### Limitaciones
+
+- Solo captura relaciones lineales.
+
+- No preserva estructuras locales complejas.
+
+- Puede ser sensible a datos no escalados.
+
+- Componentes a veces difíciles de interpretar.
+
+### t-SNE (t-Distributed Stochastic Neighbor Embedding)
+
+t-SNE es un algoritmo no lineal diseñado principalmente para visualización de datos de alta dimensión en 2D o 3D.
+
+#### Ventajas
+
+- Excelente para visualizar clusters.
+
+- Preserva muy bien relaciones locales.
+
+- Revela estructuras complejas no lineales.
+
+- Muy popular en análisis de datos biológicos y NLP.
+
+#### Limitaciones
+
+- Alto costo computacional.
+
+- No preserva bien distancias globales.
+
+- No es determinista (puede variar entre ejecuciones).
+
+- Difícil de usar para nuevos datos sin reentrenar.
+
+- Principalmente útil para visualización, no para modelado posterior.
+
+### UMAP (Uniform Manifold Approximation and Projection)
+
+UMAP es un método no lineal basado en teoría de variedades y grafos, orientado tanto a visualización como a reducción eficiente de dimensionalidad.
+
+#### Ventajas
+
+- Más rápido que t-SNE.
+
+- Preserva mejor la estructura global y local.
+
+- Escalable a grandes volúmenes de datos.
+
+- Permite transformar nuevos datos sin recalcular todo.
+
+- Buen equilibrio entre interpretación y rendimiento.
+
+#### Limitaciones
+
+Requiere ajuste de hiperparámetros.
+
+Puede generar agrupamientos artificiales si no se configura adecuadamente.
+
+Menor estabilidad si los datos tienen mucho ruido.
+
+### ICA (Independent Component Analysis)
+
+Independent Component Analysis es una técnica que busca separar señales en componentes estadísticamente independientes.
+
+#### Ventajas
+
+- Útil para separación de señales (ej. audio, EEG).
+
+- Identifica fuentes independientes ocultas.
+
+- Captura estructuras no gaussianas.
+
+- Interpretación clara cuando se conocen las fuentes subyacentes.
+
+#### Limitaciones
+
+- Supone independencia estadística (no siempre realista).
+
+- Sensible al ruido.
+
+- No ordena componentes por importancia.
+
+- No está orientado específicamente a visualización.
+
+### Conclusiones
+
+#### Principales Aprendizajes
+
+Aprendimos como utilizar los adgoritmos, como interpretarlos y como identificar sus casos de uso, con lo cual aprendimos también a preparar los datos de manera en que sean más coherentes respectivos a los casos de uso.
+
+#### Dificultades encontradas
+
+#### Reflexiones
+
+Estos algoritmos son bastante útiles aunque son limitados en cuanto a sus usos, en referencia en que en un caso normal los datos deverían de ser depurados de cierta manera para que los algoritmos no tengan problemas generales o que el ruido interfiera mucho con los mismos. 
