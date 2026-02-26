@@ -42,6 +42,33 @@ library(edfReader)
 library(fastICA)
 ```
 
+# 1 SVD (Singular Value Decomposition)
+
+## Descripción teórica
+
+La Descomposición en Valores Singulares (SVD) es una técnica matemática que permite descomponer una matriz en tres matrices más simples que contienen información estructural de los datos.
+Por medio de esta descomposición, se pueden identificar los componentes más importantes que explican la mayor parte de la información original
+Permite reducir la cantidad de dimensiones sin perder demasiado contenido relevante.
+
+Es útil en análisis de datos porque ayuda a simplificar matrices grandes y detectar patrones ocultos.
+
+Algunas diferencias con el PCA es que el SVD es la base matemática del PCA, pero el PCA se aplica normalmente a matrices centradas, mientras que el SVD se puede aplicar directamente sobre cualquier matriz. Incluso el PCA se puede derivar matemáticamente a partir del SVD.
+
+## Usos y aplicaciones
+Principales usos:
+- Reducción de dimensionalidad
+- Sistemas de recomendación (por ejemplo la factorización de matrices)
+- Compresión de datos
+- Eliminación de ruido
+
+Areas de aplicación:
+- Sistemas de recomendación  
+(Plataformas de streaming que permite identificar factores que relaciona a usuarios y productos)
+- Procesamiento de imágenes  
+(En la compresión de imágenes conservando ciertos valores más importantes)
+- Procesamiento de lenguaje natural (LSA)  
+(Permite detectar relaciones entre palabras y documentos)
+
 
 ## Cargar el dataset
 
@@ -59,7 +86,6 @@ colnames(ratings) <- c("user_id", "item_id", "rating", "timestamp")
 head(ratings)
 dim(ratings)
 ```
-
 
 ## Construcción de la matriz Usuario × Película
 
@@ -175,7 +201,6 @@ original_sample
 approx_sample
 ```
 
-
 ## Interpretación de resultados
 
 La gráfica de los valores singulares muestra que los primeros componentes tienen valores mucho mayores que el resto. Esto indica que una gran parte de la información del sistema de calificaciones está concentrada en pocas dimensiones. En otras palabras, aunque el dataset tiene muchas películas, las preferencias de los usuarios pueden resumirse en un número menor de factores importantes.
@@ -186,7 +211,37 @@ Al reconstruir la matriz utilizando solo 20 componentes, se obtiene un error de 
 
 
 
-## t-SNE
+
+---
+
+## 2. t-SNE
+
+## Descripción teórica
+
+t-SNE es un algoritmo de reducción de dimensionalidad diseñado principalmente para visualizar datos de alta dimensión en espacios de dos o tres dimensiones.
+Su objetivo es representar los datos de forma que los puntos similares permanezcan cercanos entre sí en la nueva representación
+El algoritmo transforma las distancias entre observaciones, en probabilidades, y busca preservar las relaciones locales.
+
+Es útil para explorar estructuras complejas que no son lineales.
+
+A diferencia del PCA, que es un método lineal basado en la maximización de la varianza, t-SNE es un algoritmo no lineal que prioriza la preservación de relaciones locales entre los datos.
+El PCA busca mantener la mayor variabilidad global posible, mientras que t-SNE se enfoca en conservar la estructura de vecindad, lo que lo hace más adecuado para visualización.
+
+## Usos y aplicaciones
+Principales usos:
+- Visualización de datos de alta dimensión
+- Exploración de agrupamientos
+- Análisis previo a clustering
+- Identificación de patrones ocultos
+
+Areas de aplicación:
+- Bioinformática  
+(Visualización de datos genéticos y expresión celular)
+- Visión por computadora  
+(Representación de características extraídas de imágenes)
+- Análisis de clientes  
+(Visualización de segmentos de mercado)
+
 ## Cargar dataset
 
 ```{r}
@@ -267,6 +322,36 @@ Se observa que los puntos malignos tienden a concentrarse en una región especí
 
 Dado que t-SNE preserva relaciones locales entre observaciones, esta agrupación sugiere que los pacientes con características similares tienden a compartir el mismo diagnóstico. Esto demuestra la utilidad del algoritmo como herramienta de visualización para explorar la estructura interna de datos de alta dimensionalidad.
 
+
+---
+
+## 3. UMAP
+## Descripción teórica
+
+UMAP es un algoritmo de reducción de dimensionalidad que busca preservar la estructura interna de los datos al proyectarlos en un espacio de menor dimensión.
+
+Se basa en la idea de que los datos pueden organizarse sobre estructuras de menor complejidad, y trata de mantener tanto las relaciones locales como la parte de la estructura global.
+
+Su objetivo principal es facilitar la visualización y el análisis exploratorio, esto siempre manteniendo la geometría del conjunto de datos.
+
+El PCA es un método lineal que reduce dimensiones manteniendo la mayor varianza posible, mientras que UMAP es un método no lineal que intenta preservar la estructura geométrica interna de los datos.
+UMAP puede capturar relaciones complejas que no pueden representarse mediante combinaciones lineales, lo que le permite modelar estructuras más complejas que el PCA.
+
+## Usos y aplicaciones
+Principales usos:
+- Reducción de dimensionalidad
+- Visualización de datos complejos
+- Preprocesamiento para clustering
+- Exploración de estructuras internas
+
+Areas de aplicación:
+- Genómica  
+(Análisis de datos de secuenciación genética)
+- Procesamiento de texto  
+(Visualización de representaciones vectoriales de palabras)
+- Análisis de imágenes  
+(Identificación de patrones en datos visuales)
+
 ## Aplicación de UMAP
 
 ```{r}
@@ -275,7 +360,7 @@ set.seed(123)
 umap_result <- umap(data_scaled)
 ```
 
----
+
 
 ## Crear dataframe para visualización
 
@@ -287,7 +372,7 @@ umap_df <- data.frame(
 )
 ```
 
----
+
 
 ## Visualización
 
@@ -300,7 +385,7 @@ ggplot(umap_df, aes(x = Dim1, y = Dim2, color = Diagnosis)) +
   theme_minimal()
 ```
 
----
+
 
 ## Interpretación de resultados
 
@@ -310,7 +395,7 @@ En la visualización se observa que los dos grupos presentan menor solapamiento 
 
 Esto confirma que las características clínicas medidas en el dataset permiten diferenciar ambos diagnósticos y demuestra que UMAP es una herramienta efectiva para la reducción de dimensionalidad y visualización de datos complejos.
 
----
+
 
 ## Cargar señal ECG convertida
 
@@ -321,7 +406,7 @@ dim(ecg)
 head(ecg)
 ```
 
----
+
 
 ## Seleccionar una porción de la señal
 
@@ -333,7 +418,7 @@ signals <- as.matrix(ecg[1:5000, ])
 dim(signals)
 ```
 
----
+
 
 ## Visualizar señales originales
 
@@ -345,6 +430,31 @@ matplot(signals, type="l",
 ```
 
 ---
+
+# 4. ICA
+
+## Descripción teórica
+
+El Análisis de Componentes Independientes (ICA) es una técnica que busca separar un conjunto de señales observadas en componentes que sean estadísticamente independientes.
+
+El algoritmo intenta recuperar las fuentes originales sin conocerlas previamente, y es especialmente útil cuando los datos contienen mezclas de diferentes señales y se desea identificar cada una por separado.
+
+El PCA busca componentes que maximicen la varianza y que sean ortogonales entre sí, mientras que ICA busca componentes que sean estadísticamente independientes, es decir que, ICA no solo elimina correlaciones, sino que intenta separar fuentes subyacentes independientes, lo cual va más allá del objetivo del PCA.
+
+## Usos y aplicaciones
+Principales usos:
+- Separación de señales
+- Eliminación de ruido
+- Análisis de señales biomédicas
+- Identificación de fuentes ocultas
+
+Areas de aplicación:
+- Electroencefalografía (EEG)  
+(Separación de actividad cerebral y artefactos)
+- Electrocardiografía (ECG)  
+(Análisis de señales cardíacas)
+- Procesamiento de audio  
+(Separación de múltiples voces en una grabación)
 
 ## Aplicar ICA
 
@@ -358,8 +468,6 @@ components <- ica_result$S
 dim(components)
 ```
 
----
-
 ## Visualizar componentes independientes
 
 ```{r}
@@ -368,8 +476,6 @@ matplot(components, type="l",
         xlab="Tiempo (muestras)",
         ylab="Amplitud")
 ```
-
----
 
 ## Interpretación de resultados
 
